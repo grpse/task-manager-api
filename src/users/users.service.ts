@@ -12,6 +12,10 @@ export class UsersService {
   }
 
   async create(data: CreateUserDto): Promise<User> {
+    if (!data.username || !data.hashedPassword) {
+      throw new Error('Invalid data');
+    }
+
     return this.prisma.user.create({
       data: {
         username: data.username,
