@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
-import { UnauthorizedException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { randomString } from 'test/utils/randomString';
 import { AuthModule } from './auth.module';
 
@@ -51,5 +54,16 @@ describe('auth > AuthController > integration', () => {
     await expect(
       localStrategy.validate(username, 'invalid password'),
     ).rejects.toThrow(UnauthorizedException);
+  });
+
+  it('should fail to signup with an existing user', async () => {
+    const username = randomString(7);
+    const password = randomString(7);
+
+    await controller.signup({ username, password });
+
+    await expect(controller.signup({ username, password })).rejects.toThrow(
+      InternalServerErrorException,
+    );
   });
 });
