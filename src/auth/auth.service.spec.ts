@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { AuthModule } from './auth.module';
 import { randomString } from 'test/utils/randomString';
-import { AuthedUserDto } from './dto/authed-user.dto';
+import { AuthedUserModel } from './models/authed-user.model';
 
 describe('auth > AuthService > integration', () => {
   const createNewUser = async (): Promise<{
-    createdUser: AuthedUserDto;
+    createdUser: AuthedUserModel;
     username: string;
     password: string;
     service: AuthService;

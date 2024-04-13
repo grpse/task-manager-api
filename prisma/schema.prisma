@@ -27,7 +27,7 @@ model Task {
   id         String  @id @default(uuid())
   title      String
   description String
-  status     String  @default("To do")
+  status     TaskStatus  @map("status")
   user_id    String
   user       User    @relation(fields: [user_id], references: [id])
 
