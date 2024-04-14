@@ -13,8 +13,8 @@ Tasks belong to users (1 user to many tasks).
 
 Didn't added the auditing columns for simplicity.
 
-/signup - create user account
-/login - returns a access token to interact with the tasks endpoints
+- /signup - create user account
+- /login - returns a access token to interact with the tasks endpoints
 
 ## Requirements
 
@@ -22,8 +22,15 @@ Didn't added the auditing columns for simplicity.
 
 ## Installation
 
-- docker-compose up -d
+```bash
+cd task-manager-api
+docker-compose up -d
+```
 
 ## Running the app
+
+```bash
+npm install && npm run build && npm run start
+```
 
 After installation can interact with [OpenApi generated interface in the browser](http://localhost:3000/api-docs)
