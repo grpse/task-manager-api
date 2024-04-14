@@ -25,14 +25,20 @@ export class AuthService {
     return null;
   }
 
-  async login(user: AuthedUserModel) {
-    const payload = { username: user.username, sub: user.id };
+  async createAccessToken(username: string): Promise<{ accessToken: string }> {
+    const user = await this.usersService.findOne(username);
+    const payload = { username: user.username, id: user.id };
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
     };
   }
 
-  async createUser(username: string, password: string): Promise<AuthedUserModel> {
+  async createUser(
+    username: string,
+    password: string,
+  ): Promise<AuthedUserModel> {
     const hashedPassword = await this.hashPassword(password);
     const newUser = await this.usersService.create({
       username,

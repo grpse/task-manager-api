@@ -4,7 +4,7 @@ import { AuthModule } from './auth.module';
 import { randomString } from 'test/utils/randomString';
 import { AuthedUserModel } from './models/authed-user.model';
 
-describe('auth > AuthService > integration', () => {
+describe('auth > AuthService > integration >', () => {
   const createNewUser = async (): Promise<{
     createdUser: AuthedUserModel;
     username: string;
@@ -47,7 +47,7 @@ describe('auth > AuthService > integration', () => {
 
   it('should login a user', async () => {
     const { createdUser, service } = await createNewUser();
-    const res = await service.login(createdUser);
+    const res = await service.createAccessToken(createdUser.username);
     expect(res.accessToken).toBeDefined();
   });
 });

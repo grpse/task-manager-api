@@ -1,26 +1,78 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from '@/prisma.service';
+import { TaskStatus } from '@prisma/client';
+
+interface CreateTaskParams {
+  title: string;
+  description: string;
+  userId: string;
+}
+
+interface UpdateTaskParams {
+  userId: string;
+  taskId: string;
+  title?: string;
+  description?: string;
+  status?: TaskStatus;
+}
 
 @Injectable()
 export class TaskService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  constructor(private prisma: PrismaService) {}
+
+  create(createTaskDto: CreateTaskParams) {
+    return this.prisma.task.create({
+      data: {
+        title: createTaskDto.title,
+        description: createTaskDto.description,
+        status: TaskStatus.To_do,
+        user: {
+          connect: {
+            id: createTaskDto.userId,
+          },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all task`;
+  findAllForUser({
+    userId,
+    limit = 100,
+    offset = 0,
+  }: {
+    userId: string;
+    limit?: number;
+    offset?: number;
+  }) {
+    return this.prisma.task.findMany({
+      where: {
+        user_id: userId,
+      },
+      take: limit,
+      skip: offset,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
-  }
+  async update({
+    userId,
+    taskId,
+    title,
+    description,
+    status,
+  }: UpdateTaskParams) {
+    const task = await this.prisma.task.update({
+      where: { id: taskId, user_id: userId },
+      data: {
+        title,
+        description,
+        status,
+      },
+    });
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
-  }
+    if (!task) {
+      throw new BadRequestException(`Task with id ${taskId} not found`);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+    return task;
   }
 }

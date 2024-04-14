@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersModule } from './users.module';
 import { randomString } from 'test/utils/randomString';
 
-describe('users > UsersService > integration', () => {
+describe('users > UsersService > integration >', () => {
   const getUsersService = async (): Promise<UsersService> => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [UsersModule],

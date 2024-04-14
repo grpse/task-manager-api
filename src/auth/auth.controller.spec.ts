@@ -9,7 +9,7 @@ import {
 import { randomString } from 'test/utils/randomString';
 import { AuthModule } from './auth.module';
 
-describe('auth > AuthController > integration', () => {
+describe('auth > AuthController > integration >', () => {
   let controller: AuthController;
   let authService: AuthService;
   let localStrategy: LocalStrategy;
@@ -30,7 +30,7 @@ describe('auth > AuthController > integration', () => {
 
     const signup = await controller.signup({ username, password });
     const user = await authService.validateUser(username, password);
-    const login = await controller.login(user);
+    const login = await controller.login({ username: user.username, password });
 
     expect(signup).toEqual(
       expect.objectContaining({
