@@ -9,16 +9,10 @@ async function bootstrap() {
   });
   app.useBodyParser('json', { limit: '10mb' });
 
-  const config = new DocumentBuilder()
-    // .setTitle('User Tasks API')
-    // .setDescription('The tasks API description')
-    // .setVersion('0.0.1')
-    // .addTag('tasks')
-    .addBearerAuth()
-    .build();
+  const config = new DocumentBuilder().addBearerAuth().build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
