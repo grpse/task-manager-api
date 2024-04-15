@@ -5,7 +5,7 @@ Created using the framework NestJs with the following major libraries and purpos
 - passport - login local strategy
 - jwt - user identification
 - prisma - db interaction
-- bcrypt - password encryption
+- bcryptjs - password encryption
 
 ## Considerations
 
@@ -13,7 +13,7 @@ Created using the framework NestJs with the following major libraries and purpos
 - Didn't added the auditing columns or history tables;
 - Bearer authentication with JWT with salted password;
 - Prisma for data access layer (services), but understand the perf issues it might have;
-- bcrypt
+- bcryptjs to be able to run both host and docker
 
 Auth
 - POST /signup - create user account
@@ -40,7 +40,9 @@ cd task-manager-api
 docker-compose up -d
 ```
 
-## Running the app local
+[OpenApi generated interface in the browser](http://localhost:3000/api-docs)
+
+## Running the app on local
 
 build and run
 ```bash
